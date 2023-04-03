@@ -280,12 +280,12 @@ PrefabInstance:
     - target: {fileID: 4026047544840094732, guid: 23155f4a334c70548b848c895ecf16a9,
         type: 3}
       propertyPath: xAxis.m_key
-      value: MovementHorizontal
+      value: Horizontal
       objectReference: {fileID: 0}
     - target: {fileID: 4026047544840094732, guid: 23155f4a334c70548b848c895ecf16a9,
         type: 3}
       propertyPath: yAxis.m_key
-      value: MovementVertical
+      value: Vertical
       objectReference: {fileID: 0}
     - target: {fileID: 5417083895256255179, guid: 23155f4a334c70548b848c895ecf16a9,
         type: 3}

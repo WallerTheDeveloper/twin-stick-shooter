@@ -4,8 +4,8 @@ namespace Code.Services.Input
 {
     public class InputService : IInputService
     {
-        private const string MovementHorizontal = "MovementHorizontal";
-        private const string MovementVertical = "MovementVertical";
+        private const string MovementHorizontal = "Horizontal";
+        private const string MovementVertical = "Vertical";
 
         private const string AimHorizontal = "AimHorizontal";
         private const string AimVertical = "AimVertical";

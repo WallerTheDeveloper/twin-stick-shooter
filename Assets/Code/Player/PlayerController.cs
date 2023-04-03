@@ -17,7 +17,8 @@ namespace Code.Player
         private Vector3 _aimInput;
         private Vector3 _movementInput;
         private NavMeshAgent _navMeshAgent;
-        // private PlayerAnimator _heroAnimator;
+
+        private Animator _animator;
 
         [Inject]
         public void Construct(IInputService inputService, ICameraController cameraController)
@@ -28,7 +29,7 @@ namespace Code.Player
 
         private void Awake()
         {
-            // _heroAnimator = GetComponent<PlayerAnimator>();
+            _animator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
@@ -80,7 +81,19 @@ namespace Code.Player
             {
                 moveDirection = CalculateInputDirection(_movementInput);
             }
+            
             _navMeshAgent.Move(_navMeshAgent.speed * moveDirection * Time.deltaTime);
+
+            AnimateMovement(moveDirection);
+        }
+
+        private void AnimateMovement(Vector3 moveDirection) // refactor later
+        {
+            float forward = Vector3.Dot(moveDirection, transform.forward);
+            float right = Vector3.Dot(moveDirection, transform.right);
+
+            _animator.SetFloat("forwardSpeed", forward);
+            _animator.SetFloat("sideSpeed", right);
         }
     }
 }
