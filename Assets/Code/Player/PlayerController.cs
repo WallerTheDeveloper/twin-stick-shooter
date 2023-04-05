@@ -1,5 +1,5 @@
 ﻿using Code.Camera;
-using Code.Services.Input;
+using Code.Infrastructure.Services.Input;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
