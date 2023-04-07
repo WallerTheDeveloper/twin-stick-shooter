@@ -26,7 +26,10 @@ namespace Code.Player
 
         private Animator _animator;
 
+        private UnityEngine.Camera _mainCamera;
+        
         private float _animatorTurnSpeed;
+        
         [Inject]
         public void Construct(IInputService inputService, ICameraController cameraController)
         {
@@ -38,6 +41,7 @@ namespace Code.Player
         {
             _animator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _mainCamera = UnityEngine.Camera.main;
         }
 
         private void FixedUpdate()
@@ -46,8 +50,7 @@ namespace Code.Player
 
             RotatePlayer();
         
-            _cameraController.AddYawInput(_movementInput.x);
-            _cameraController.FollowTarget(transform.position);
+            CameraMovement();
         }
 
         private void Update()
@@ -56,57 +59,10 @@ namespace Code.Player
             _movementInput = _inputService.MovementAxis();
         }
 
-        // private void RotatePlayer(out float currentTurnSpeed)
-        // {
-        //     // Calculate the target direction based on the input and the camera's orientation
-        //     // var linearVectorCombination = _aimInput.x * Camera.main.transform.right + _aimInput.y * Camera.main.transform.forward;
-        //     
-        //     var targetDirection = CalculateInputDirection(_aimInput);
-        //
-        //     Quaternion prevRotation = transform.rotation;
-        //
-        //     var turnAlpha = _turnSpeed * Time.deltaTime;
-        //     
-        //     float angle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
-        //     var lookRotation = transform.rotation * Quaternion.Euler(0, angle, 0);
-        //
-        //     transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, turnAlpha);
-        //
-        //     Quaternion currentRotation = transform.rotation;
-        //     float direction = Vector3.Dot(targetDirection, transform.right) > 0 ? 1 : -1;
-        //     float rotationDelta = Quaternion.Angle(prevRotation, currentRotation) * direction;
-        //     currentTurnSpeed = rotationDelta / Time.deltaTime;
-        // }
-
-        private void RotatePlayer()
+        private void CameraMovement()
         {
-            float currentTurnSpeed = 0;
-            if (_aimInput.sqrMagnitude > Constants.Epsilon)
-            {
-                Quaternion prevRotation = transform.rotation;
-
-                var turnAlpha = _turnSpeed * Time.deltaTime;
-                var targetDirection = CalculateInputDirection(_aimInput);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation,
-                    Quaternion.LookRotation(targetDirection, Vector3.up), turnAlpha);
-                
-                Quaternion currentRotation = transform.rotation;
-                float Dir = Vector3.Dot(targetDirection, transform.right) > 0 ? 1 : -1;
-                float rotationDelta = Quaternion.Angle(prevRotation, currentRotation) * Dir;
-                currentTurnSpeed = rotationDelta / Time.deltaTime;
-            }
-            _animatorTurnSpeed = Mathf.Lerp(_animatorTurnSpeed, currentTurnSpeed, Time.deltaTime * _turnAnimationSpeed);
-            _animator.SetFloat("turnSpeed", _animatorTurnSpeed);
-        }
-
-        private Vector3 CalculateInputDirection(Vector3 inputValue)
-        {
-            Vector3 targetDirection = UnityEngine.Camera.main.transform.TransformDirection(inputValue);
-            targetDirection.y = 0;
-            targetDirection.Normalize();
-            
-            return targetDirection;
+            _cameraController.AddYawInput(_movementInput.x);
+            _cameraController.FollowTarget(transform.position);
         }
 
         private void MovePlayer()
@@ -121,6 +77,54 @@ namespace Code.Player
             _navMeshAgent.Move(_navMeshAgent.speed * moveDirection * Time.deltaTime);
 
             AnimateMovement(moveDirection);
+        }
+
+        private void RotatePlayer()
+        {
+            float currentTurnSpeed = 0;
+            
+            if (_aimInput.sqrMagnitude > Constants.Epsilon)
+            {
+                Quaternion prevRotation = transform.rotation;
+
+                var turnAlpha = _turnSpeed * Time.deltaTime;
+                var targetDirection = CalculateInputDirection(_aimInput);
+
+                transform.rotation = Quaternion.Lerp(transform.rotation,
+                    Quaternion.LookRotation(targetDirection, Vector3.up), turnAlpha);
+                
+                currentTurnSpeed = CalculateCurrentTurnSpeed(targetDirection, prevRotation);
+            }
+            AnimateStandingRotation(currentTurnSpeed);
+        }
+
+        private void AnimateStandingRotation(float currentTurnSpeed)
+        {
+            _animatorTurnSpeed = Mathf.Lerp(_animatorTurnSpeed, currentTurnSpeed, Time.deltaTime * _turnAnimationSpeed);
+            _animator.SetFloat("turnSpeed", _animatorTurnSpeed);
+        }
+
+        private float CalculateCurrentTurnSpeed(Vector3 targetDirection, Quaternion prevRotation)
+        {
+            float currentTurnSpeed = 0;
+            
+            Quaternion currentRotation = transform.rotation;
+            
+            float turnDirection = Vector3.Dot(targetDirection, transform.right) > 0 ? 1 : -1;
+            float rotationDelta = Quaternion.Angle(prevRotation, currentRotation) * turnDirection;
+            
+            currentTurnSpeed = rotationDelta / Time.deltaTime;
+            
+            return currentTurnSpeed;
+        }
+
+        private Vector3 CalculateInputDirection(Vector3 inputValue)
+        {
+            Vector3 targetDirection = _mainCamera.transform.TransformDirection(inputValue);
+            targetDirection.y = 0;
+            targetDirection.Normalize();
+            
+            return targetDirection;
         }
 
         private void AnimateMovement(Vector3 moveDirection) // refactor later
