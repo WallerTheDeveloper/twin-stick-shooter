@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 324972047674854989}
   - component: {fileID: -8122144261445338272}
   - component: {fileID: 4560561152031036263}
+  - component: {fileID: 2791762385431406209}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -107,6 +108,75 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _turnSpeed: 10
+  _turnAnimationSpeed: 5
+--- !u!114 &2791762385431406209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2555618708209965412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f698baacdd544a9a57347c8ed9fcb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: e99783eae6571d04fa4dc47de65077e8, type: 2}
+    - {fileID: 4625836183736362816}
+    - {fileID: 11400000, guid: fea63989dcedfd94da4ad581ecab6f03, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _weapons
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[Code.Combat.Weapon, Assembly-CSharp],[UnityEngine.Transform,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[Code.Combat.Weapon,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 2
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1001 &4625836183736761260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -180,6 +250,12 @@ PrefabInstance:
 --- !u!4 &4625836183736361098 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400166, guid: a5674d01884853d4e8f2386a171e14d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4625836183736761260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4625836183736362816 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400620, guid: a5674d01884853d4e8f2386a171e14d9,
     type: 3}
   m_PrefabInstance: {fileID: 4625836183736761260}
   m_PrefabAsset: {fileID: 0}

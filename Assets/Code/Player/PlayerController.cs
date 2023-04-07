@@ -1,8 +1,11 @@
-﻿using Code.Camera;
+﻿using System.Numerics;
+using Code.Camera;
 using Code.Infrastructure.Services.Input;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Code.Player
 {
@@ -11,6 +14,9 @@ namespace Code.Player
         [SerializeField]
         private float _turnSpeed;
 
+        [SerializeField]
+        private float _turnAnimationSpeed;
+        
         private IInputService _inputService;
         private ICameraController _cameraController;
 
@@ -20,6 +26,7 @@ namespace Code.Player
 
         private Animator _animator;
 
+        private float _animatorTurnSpeed;
         [Inject]
         public void Construct(IInputService inputService, ICameraController cameraController)
         {
@@ -36,11 +43,9 @@ namespace Code.Player
         private void FixedUpdate()
         {
             MovePlayer();
-            if (_aimInput.sqrMagnitude > Constants.Epsilon)
-            {
-                RotatePlayer();
-            }
-            
+
+            RotatePlayer();
+        
             _cameraController.AddYawInput(_movementInput.x);
             _cameraController.FollowTarget(transform.position);
         }
@@ -51,17 +56,48 @@ namespace Code.Player
             _movementInput = _inputService.MovementAxis();
         }
 
+        // private void RotatePlayer(out float currentTurnSpeed)
+        // {
+        //     // Calculate the target direction based on the input and the camera's orientation
+        //     // var linearVectorCombination = _aimInput.x * Camera.main.transform.right + _aimInput.y * Camera.main.transform.forward;
+        //     
+        //     var targetDirection = CalculateInputDirection(_aimInput);
+        //
+        //     Quaternion prevRotation = transform.rotation;
+        //
+        //     var turnAlpha = _turnSpeed * Time.deltaTime;
+        //     
+        //     float angle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
+        //     var lookRotation = transform.rotation * Quaternion.Euler(0, angle, 0);
+        //
+        //     transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, turnAlpha);
+        //
+        //     Quaternion currentRotation = transform.rotation;
+        //     float direction = Vector3.Dot(targetDirection, transform.right) > 0 ? 1 : -1;
+        //     float rotationDelta = Quaternion.Angle(prevRotation, currentRotation) * direction;
+        //     currentTurnSpeed = rotationDelta / Time.deltaTime;
+        // }
+
         private void RotatePlayer()
         {
-            // Calculate the target direction based on the input and the camera's orientation
-            // var linearVectorCombination = _aimInput.x * Camera.main.transform.right + _aimInput.y * Camera.main.transform.forward;
-            
-            var targetDirection = CalculateInputDirection(_aimInput);
+            float currentTurnSpeed = 0;
+            if (_aimInput.sqrMagnitude > Constants.Epsilon)
+            {
+                Quaternion prevRotation = transform.rotation;
 
-            // Calculate the rotation angle between the current forward direction and the target direction
-            float angle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
+                var turnAlpha = _turnSpeed * Time.deltaTime;
+                var targetDirection = CalculateInputDirection(_aimInput);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * Quaternion.Euler(0, angle, 0), _turnSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation,
+                    Quaternion.LookRotation(targetDirection, Vector3.up), turnAlpha);
+                
+                Quaternion currentRotation = transform.rotation;
+                float Dir = Vector3.Dot(targetDirection, transform.right) > 0 ? 1 : -1;
+                float rotationDelta = Quaternion.Angle(prevRotation, currentRotation) * Dir;
+                currentTurnSpeed = rotationDelta / Time.deltaTime;
+            }
+            _animatorTurnSpeed = Mathf.Lerp(_animatorTurnSpeed, currentTurnSpeed, Time.deltaTime * _turnAnimationSpeed);
+            _animator.SetFloat("turnSpeed", _animatorTurnSpeed);
         }
 
         private Vector3 CalculateInputDirection(Vector3 inputValue)

@@ -1,4 +1,5 @@
 ﻿using Code.Infrastructure.Services.AssetsManagement;
+using Code.UI;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +11,6 @@ namespace Code.Infrastructure.Installers
 
         public override void InstallBindings()
         {
-            
         }
 
         public void Awake()
@@ -23,6 +23,14 @@ namespace Code.Infrastructure.Installers
         {
             var hudPrefab = _assets.GetAsset<GameObject>(AssetPath.HUD_PATH);
             var hud = Container.InstantiatePrefab(hudPrefab);
+
+            var switchButton = hud.gameObject.GetComponentInChildren<WeaponSwitcher>();
+
+            Container
+                .Bind<IWeaponSwitcher>()
+                .To<WeaponSwitcher>()
+                .FromInstance(switchButton)
+                .AsSingle();
             Object.DontDestroyOnLoad(hud.gameObject);
         }
     }
