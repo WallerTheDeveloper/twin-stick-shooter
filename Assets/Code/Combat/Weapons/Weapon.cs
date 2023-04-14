@@ -1,37 +1,38 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Code.Combat
+namespace Code.Combat.Weapons
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
     public class Weapon : ScriptableObject
     {
+        public GameObject _weaponPrefab = null;
         [SerializeField] private AnimatorOverrideController animatorOverride = null;
-        [SerializeField] private GameObject equippedWeapon = null;
         [SerializeField] private float weaponDamage = 5f;
+        [SerializeField] private float shootingSpeed = 1f;
         // [SerializeField] Projectile projectile = null;
 
         private const string weaponName = "Weapon";
 
-        public void Equip(Transform attachPlace, Animator animator)
+        public void Equip(Transform attachPlace, UnityEngine.Animator animator)
         {
-            DestroyOldWeapon(attachPlace);
+            DestroyOldWeapon(at: attachPlace);
 
-            if (equippedWeapon != null)
+            if (_weaponPrefab != null)
             {
-                var weapon = Instantiate(equippedWeapon, attachPlace);
+                var weapon = Instantiate(_weaponPrefab, attachPlace);
                 weapon.name = weaponName;
             }
 
             if (animatorOverride != null)
             {
                 animator.runtimeAnimatorController = animatorOverride;
+                animator.SetFloat("shootingSpeed", shootingSpeed);
             }
         }
 
-        private void DestroyOldWeapon(Transform attachPlace)
+        private void DestroyOldWeapon(Transform at)
         {
-            Transform oldWeapon = attachPlace.Find(weaponName);
+            Transform oldWeapon = at.Find(weaponName);
             
             if (oldWeapon == null)
                 return;

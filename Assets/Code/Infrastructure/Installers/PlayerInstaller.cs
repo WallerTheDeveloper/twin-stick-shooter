@@ -1,7 +1,8 @@
 ﻿using Code.Camera;
+using Code.Entities.EntitiesTransformation.Calculations;
+using Code.Entities.Player;
 using Code.Infrastructure.Services.AssetsManagement;
 using Code.Infrastructure.Services.Input;
-using Code.Player;
 using Code.UI;
 using UnityEngine;
 using Zenject;
@@ -17,7 +18,7 @@ namespace Code.Infrastructure.Installers
         public override void InstallBindings()
         {
             Container.Bind<IInputService>().To<InputService>().AsSingle();
-            Container.Bind<ICameraController>().To<CameraController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<ITransformationCalculator>().To<TransformationCalculator>().AsSingle();
         }
 
         public override void Start()
@@ -31,16 +32,16 @@ namespace Code.Infrastructure.Installers
 
             var playerPrefab = _assets.GetAsset<GameObject>(AssetPath.PLAYER_PATH);
             
-            var playerController =
-                Container.InstantiatePrefabForComponent<PlayerController>(
+            var playerComponent =
+                Container.InstantiatePrefabForComponent<Player>(
                     playerPrefab, 
                     PlayerStartPoint.position,
                     Quaternion.identity,
                     null);
             
             Container
-                .Bind<PlayerController>()
-                .FromInstance(playerController)
+                .Bind<Player>()
+                .FromInstance(playerComponent)
                 .AsSingle();
         }
     }

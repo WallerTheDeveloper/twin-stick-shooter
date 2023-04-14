@@ -24,11 +24,11 @@ namespace Code.Infrastructure.Installers
             var hudPrefab = _assets.GetAsset<GameObject>(AssetPath.HUD_PATH);
             var hud = Container.InstantiatePrefab(hudPrefab);
 
-            var switchButton = hud.gameObject.GetComponentInChildren<WeaponSwitcher>();
+            var switchButton = hud.gameObject.GetComponentInChildren<WeaponSwitchHandler>();
 
             Container
-                .Bind<IWeaponSwitcher>()
-                .To<WeaponSwitcher>()
+                .Bind<IWeaponSwitchHandler>()
+                .To<WeaponSwitchHandler>()
                 .FromInstance(switchButton)
                 .AsSingle();
             Object.DontDestroyOnLoad(hud.gameObject);
