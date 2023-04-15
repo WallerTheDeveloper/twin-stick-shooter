@@ -26,15 +26,15 @@ namespace Code.Entities.EntitiesTransformation
             Vector3 movementInput = _inputService.MovementAxis();
             
             Vector3 moveDirection = Vector3.zero;
- 
+            
             if (movementInput.sqrMagnitude > Constants.Epsilon)
             {
                 moveDirection = _transformationCalculator.CalculateInputDirection(movementInput);
             }
-            
+
             float joystickRelativeHeroSpeed = movementInput.magnitude * MovementSpeed;
-            
             _characterController.Move(joystickRelativeHeroSpeed * moveDirection * Time.deltaTime);
+            
         }
 
     }
