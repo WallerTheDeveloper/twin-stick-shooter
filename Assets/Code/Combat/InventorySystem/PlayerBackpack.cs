@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Code.Combat.Weapons;
-using Code.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Zenject;
 
 namespace Code.Combat.InventorySystem
 {

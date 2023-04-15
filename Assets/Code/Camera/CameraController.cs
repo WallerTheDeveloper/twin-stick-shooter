@@ -25,7 +25,7 @@ namespace Code.Camera
             _movementInput = _inputService.MovementAxis();
         }
 
-        private void LateUpdate()
+        private void FixedUpdate()
         {
             if (_followTarget == null)
             {
