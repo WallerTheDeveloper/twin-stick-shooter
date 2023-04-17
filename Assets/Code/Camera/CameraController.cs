@@ -1,5 +1,5 @@
 ﻿using System;
-using Code.Entities.Player;
+using Code.Entities.PlayerEntity;
 using Code.Infrastructure.Services.Input;
 using UnityEngine;
 using Zenject;

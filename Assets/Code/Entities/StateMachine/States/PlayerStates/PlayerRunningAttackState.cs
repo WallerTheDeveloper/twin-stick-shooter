@@ -11,17 +11,20 @@ namespace Code.Entities.StateMachine.States.PlayerStates
         private readonly IAnimationStateReader _playerAnimator;
         private readonly IMovement _movement;
         private readonly IRotation _rotation;
+        private readonly IInputService _inputService;
         private readonly Transform _characterTransform;
 
         public PlayerRunningAttackState(
             IAnimationStateReader playerAnimator,
             IMovement movement,
             IRotation rotation,
+            IInputService inputService,
             Transform characterTransform)
         {
             _playerAnimator = playerAnimator;
             _movement = movement;
             _rotation = rotation;
+            _inputService = inputService;
             _characterTransform = characterTransform;
         }
         public void OnEnter()
@@ -35,7 +38,7 @@ namespace Code.Entities.StateMachine.States.PlayerStates
 
         public void FixedTick()
         {
-            _movement.Move();
+            _movement.Move(_inputService.MovementAxis(), _movement.MovementSpeed);
             _rotation.RotateTowardsInputDirection(_characterTransform);
         }
 

@@ -21,18 +21,17 @@ namespace Code.Entities.EntitiesTransformation
             _inputService = inputService;
             _transformationCalculator = transformationCalculator;
         }
-        public void Move()
+
+        public void Move(Vector3 destination, float speed)
         {
-            Vector3 movementInput = _inputService.MovementAxis();
-            
             Vector3 moveDirection = Vector3.zero;
             
-            if (movementInput.sqrMagnitude > Constants.Epsilon)
+            if (destination.sqrMagnitude > Constants.Epsilon)
             {
-                moveDirection = _transformationCalculator.CalculateInputDirection(movementInput);
+                moveDirection = _transformationCalculator.CalculateInputDirection(destination);
             }
-
-            float joystickRelativeHeroSpeed = movementInput.magnitude * MovementSpeed;
+            
+            float joystickRelativeHeroSpeed = destination.magnitude * speed;
             _characterController.Move(joystickRelativeHeroSpeed * moveDirection * Time.deltaTime);
             
         }

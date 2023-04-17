@@ -11,11 +11,8 @@ namespace Code.Infrastructure.Installers
 
         public override void InstallBindings()
         {
-        }
-
-        public void Awake()
-        {
             _assets = new AssetsProvider();
+
             InstallHUD();
         }
 

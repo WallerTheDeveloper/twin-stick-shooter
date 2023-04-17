@@ -16,7 +16,6 @@ namespace Code.Combat.Weapons
             {
                 return hit.collider.gameObject;
             }
-
             return null;
         }
 
@@ -28,7 +27,7 @@ namespace Code.Combat.Weapons
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawLine(_weaponMuzzle.position, _weaponMuzzle.position + GetAimDirection() * _aimRange);
+            Debug.DrawRay(_weaponMuzzle.position,  _weaponMuzzle.position + GetAimDirection() * _aimRange, Color.red);
         }
     }
 }

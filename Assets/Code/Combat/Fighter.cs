@@ -1,4 +1,5 @@
-﻿using Code.Combat.InventorySystem;
+﻿using System;
+using Code.Combat.InventorySystem;
 using Code.Combat.Weapons;
 using UnityEngine;
 
@@ -13,9 +14,12 @@ namespace Code.Combat
             _playerBackpack = GetComponent<PlayerBackpack>();
         }
 
-        public void ShootInDirection() // animation event
+        public void ShootInDirection() // Pistol_Firing/Rifle_Firing animation event
         {
-            Debug.Log($"aiming at {_playerBackpack.CurrentWeapon._weaponPrefab.GetComponent<Aiming>().GetAimTarget()}");
+            Aiming aiming = _playerBackpack.CurrentWeapon._weaponPrefab.GetComponent<Aiming>();
+            var get = aiming.GetAimTarget();
+            Debug.Log($"aiming at {get}");
+            
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Code.Animator;
-using Code.Camera;
 using Code.Entities.EntitiesTransformation;
 using Code.Entities.EntitiesTransformation.Calculations;
 using Code.Entities.StateMachine;
@@ -9,13 +8,13 @@ using Code.Infrastructure.Services.Input;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Entities.Player
+namespace Code.Entities.PlayerEntity
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IEntity
     {
         [SerializeField] private float _movementSpeed;
         [SerializeField] private float _turnSpeed;
-
+        
         private IStateMachine _stateMachine;
         private IInputService _inputService;
         private IMovement _movement;
@@ -23,6 +22,9 @@ namespace Code.Entities.Player
         private PlayerAnimator _playerAnimator;
         private CharacterController _characterController;
         private ITransformationCalculator _transformationCalculator;
+
+        public Transform EntityTransform => transform;
+
         
         [Inject]
         public void Construct(IInputService inputService, ITransformationCalculator transformationCalculator)
@@ -65,8 +67,8 @@ namespace Code.Entities.Player
         private void CreateStates()
         {
             var playerIdleState = new PlayerIdleState(_playerAnimator);
-            var playerMoveState = new PlayerMoveState(_playerAnimator, _movement);
-            var playerRunningAttackState = new PlayerRunningAttackState(_playerAnimator, _movement, _rotation, transform);
+            var playerMoveState = new PlayerMoveState(_playerAnimator, _movement, _inputService);
+            var playerRunningAttackState = new PlayerRunningAttackState(_playerAnimator, _movement, _rotation, _inputService, transform);
             var playerAttackState = new PlayerStandingAttackState(_rotation, _playerAnimator, _inputService, transform);
             
             StateTransit(playerIdleState, playerMoveState, IsMoving());
@@ -87,9 +89,8 @@ namespace Code.Entities.Player
             Func<bool> IsAttacking() => () => _inputService.AimAxis().sqrMagnitude > Constants.Epsilon;
         }
 
-        private void StateTransit(IEntityState from, IEntityState to, Func<bool> condition)
-        {
+        private void StateTransit(IEntityState from, IEntityState to, Func<bool> condition) => 
             _stateMachine.AddTransition(from, to, condition);
-        }
+
     }
 }
