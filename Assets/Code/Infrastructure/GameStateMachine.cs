@@ -9,10 +9,11 @@ namespace Code.Infrastructure
         private readonly Dictionary<Type,IExitableState> _states;
 
         public GameStateMachine(
-            BootstrapState.Factory bootstrapStateFactory,
+            GameBootstrapState.Factory bootstrapStateFactory,
             LoadProgressState.Factory loadProgressStateFactory,
             LoadLevelState.Factory loadLevelStateFactory,
-            GameLoopState.Factory gameLoopStateFactory
+            GameLoopState.Factory gameLoopStateFactory,
+            GamePauseState.Factory gamePauseStateFactory
         )
         {
             _states = new Dictionary<Type, IExitableState>();
@@ -21,14 +22,15 @@ namespace Code.Infrastructure
             RegisterState(loadProgressStateFactory.Create(this));
             RegisterState(loadLevelStateFactory.Create(this));
             RegisterState(gameLoopStateFactory.Create(this));
+            RegisterState(gamePauseStateFactory.Create(this));
         }
 
         private IExitableState _activeState;
 
-        public void Enter<TState>() where TState : class, IState
+        public void Enter<TState>() where TState : class, IGameState
         {
-            IState state = ChangeState<TState>();
-            state.Enter();
+            IGameState gameState = ChangeState<TState>();
+            gameState.Enter();
         }
 
         public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>

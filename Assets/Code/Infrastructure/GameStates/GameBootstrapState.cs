@@ -3,12 +3,12 @@ using Zenject;
 
 namespace Code.Infrastructure.GameStates
 {
-    public class BootstrapState : IState
+    public class GameBootstrapState : IGameState
     {
         private readonly IGameStateMachine _gameStateMachine;
         private ISceneLoader _sceneLoader;
 
-        public BootstrapState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader)
+        public GameBootstrapState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -26,7 +26,7 @@ namespace Code.Infrastructure.GameStates
             _gameStateMachine.Enter<LoadProgressState>();
         }
 
-        public class Factory : PlaceholderFactory<IGameStateMachine, BootstrapState>
+        public class Factory : PlaceholderFactory<IGameStateMachine, GameBootstrapState>
         {
         }
     }

@@ -16,7 +16,7 @@ namespace Code.Infrastructure
         }
         private void Awake()
         {
-            _gameStateMachine.Enter<BootstrapState>();
+            _gameStateMachine.Enter<GameBootstrapState>();
             
             DontDestroyOnLoad(this);
         }

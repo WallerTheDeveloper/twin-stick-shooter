@@ -2,7 +2,7 @@ using Zenject;
 
 namespace Code.Infrastructure.GameStates
 {
-    public class GameLoopState : IState
+    public class GameLoopState : IGameState
     {
         public GameLoopState(GameStateMachine gameStateMachine)
         {

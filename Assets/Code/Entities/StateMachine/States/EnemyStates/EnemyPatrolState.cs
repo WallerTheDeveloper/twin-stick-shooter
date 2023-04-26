@@ -18,7 +18,6 @@ namespace Code.Entities.StateMachine.States.EnemyStates
         public void Tick()
         {
             _patrolBehaviour.PatrolArea();
-            _patrolBehaviour.UpdateTimers();
         }
 
         public void FixedTick()

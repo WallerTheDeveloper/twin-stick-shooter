@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Code.Infrastructure.GameStates
 {
-    public class LoadProgressState : IState
+    public class LoadProgressState : IGameState
     {
         private readonly IGameStateMachine _gameStateMachine;
 

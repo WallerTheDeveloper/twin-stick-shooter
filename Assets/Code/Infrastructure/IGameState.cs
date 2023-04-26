@@ -1,6 +1,6 @@
 namespace Code.Infrastructure
 {
-    public interface IState : IExitableState
+    public interface IGameState : IExitableState
     {
         void Enter();
     }
