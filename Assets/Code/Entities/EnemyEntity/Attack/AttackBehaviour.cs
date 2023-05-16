@@ -18,24 +18,13 @@ namespace Code.Entities.EnemyEntity.Attack
         {
             Debug.Log("attacking");
         }
-        
-        // public bool InAttackRangeOfTarget()
-        // {
-        //     float distanceToTarget = Vector3.Distance(_enemy.TargetTransform.position, _enemy.EntityTransform.position);
-        //     return distanceToTarget < _aiSettings.ChaseDistance;
-        // }
 
         public bool IsInRange(float threshold)
         {
             float distanceToTarget = Vector3.Distance(_enemy.TargetTransform.position, _enemy.EntityTransform.position);
             return distanceToTarget < threshold;
         }
-        // public bool HasReachedTarget()
-        // {
-        //     float distanceToTarget = Vector3.Distance(_enemy.TargetTransform.position, _enemy.EntityTransform.position);
-        //     return distanceToTarget <= _aiSettings.AttackDistance;
-        // }
-        //
+        
         public bool CanAttack(GameObject target) => 
             target != null;
     }

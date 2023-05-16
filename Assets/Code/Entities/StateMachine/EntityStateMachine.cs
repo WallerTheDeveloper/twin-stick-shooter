@@ -24,7 +24,7 @@ namespace Code.Entities.StateMachine
             _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
             _currentTransitions ??= EmptyTransitions;
 
-            Debug.Log($"Enter to {_currentState}");
+            // Debug.Log($"Enter to {_currentState}");
             
             _currentState.OnEnter();
         }
@@ -60,7 +60,7 @@ namespace Code.Entities.StateMachine
 
         public void AddAnyTransition(IEntityState state, Func<bool> predicate)
         {      
-            Debug.Log("Entered");
+            // Debug.Log("Entered");
             _anyTransitions.Add(new Transition(state, predicate));
         }
         

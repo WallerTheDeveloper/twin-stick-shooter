@@ -5,10 +5,11 @@ using UnityEngine;
 
 namespace Code.Combat.InventorySystem
 {
-    public class PlayerBackpack : SerializedMonoBehaviour
+    public class PlayerBackpack : SerializedMonoBehaviour, IPlayerBackpack
     {
         public Dictionary<Weapon, Transform> _weapons;
-        public Weapon CurrentWeapon { get; private set; }
+        public Weapon EquippedWeapon { get; private set; }
+
         
         private IEnumerator<KeyValuePair<Weapon, Transform>> _weaponsEnumerator;
         private UnityEngine.Animator _animator;
@@ -45,9 +46,10 @@ namespace Code.Combat.InventorySystem
             var currentWeapon = _weaponsEnumerator.Current.Key;
             var currentTransform = _weaponsEnumerator.Current.Value;
 
-            CurrentWeapon = currentWeapon;
+            EquippedWeapon = currentWeapon;
 
             currentWeapon.Equip(currentTransform, _animator);
         }
+
     }
 }

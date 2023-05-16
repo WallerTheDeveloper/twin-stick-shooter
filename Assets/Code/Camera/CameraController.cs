@@ -14,14 +14,14 @@ namespace Code.Camera
         private IInputService _inputService;
         private Vector3 _movementInput;
         
-        [Inject]
-        public void Construct(IInputService inputService)
+        public void Initialize(IInputService inputService)
         {
             _inputService = inputService;
         }
 
         private void Update()
         {
+            if (_inputService == null) return;
             _movementInput = _inputService.MovementAxis();
         }
 

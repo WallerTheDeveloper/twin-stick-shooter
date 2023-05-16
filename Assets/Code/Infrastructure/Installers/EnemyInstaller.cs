@@ -8,7 +8,7 @@ namespace Code.Infrastructure.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<IEntity>().To<Enemy>().AsSingle();
+            // Container.Bind<IHostile>().To<Enemy>().AsSingle();
         }
     }
 }

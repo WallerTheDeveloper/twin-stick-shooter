@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Code.Infrastructure
 {
-    public class GameRunner : MonoBehaviour
+    public class GameEntryPoint : MonoBehaviour
     {
         GameBootstrapper.Factory _gameBootstrapperFactory;
         

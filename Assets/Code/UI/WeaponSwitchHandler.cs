@@ -10,7 +10,7 @@ namespace Code.UI
         
         public Button _switchWeaponButton;
     
-        private void Start()
+        private void OnEnable()
         {
             _switchWeaponButton.onClick.AddListener(SwitchWeapon);
         }

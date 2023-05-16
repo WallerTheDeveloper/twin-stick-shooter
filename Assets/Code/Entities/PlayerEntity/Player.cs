@@ -1,10 +1,12 @@
 ﻿using System;
 using Code.Animator;
+using Code.Camera;
 using Code.Entities.EntitiesTransformation;
 using Code.Entities.EntitiesTransformation.Calculations;
 using Code.Entities.StateMachine;
 using Code.Entities.StateMachine.States.PlayerStates;
 using Code.Infrastructure.Services.Input;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -22,31 +24,47 @@ namespace Code.Entities.PlayerEntity
         private PlayerAnimator _playerAnimator;
         private CharacterController _characterController;
         private ITransformationCalculator _transformationCalculator;
+        private ICameraController _cameraController;
 
+        private const string CameraController = "CameraController";
         public Transform EntityTransform => transform;
-
         
-        [Inject]
-        public void Construct(IInputService inputService, ITransformationCalculator transformationCalculator)
-        {
-            _inputService = inputService;
-            _transformationCalculator = transformationCalculator;
-        }
-
-        private void Awake()
+        public void Initialize()
         {
             GetComponents();
 
+            _inputService = new InputService();
+            _transformationCalculator = new TransformationCalculator();
+            
+            _playerAnimator.Initialize(_transformationCalculator, _inputService);
+            _cameraController.Initialize(_inputService);
+            
             _movement = new CharacterMovement(_characterController, _inputService, _transformationCalculator);
             _rotation = new CharacterRotation(_inputService, _transformationCalculator, _playerAnimator);
-
+            
             _movement.MovementSpeed = _movementSpeed;
             _rotation.TurnSpeed = _turnSpeed;
 
             _stateMachine = new EntityStateMachine();
 
             CreateStates();
+            
         }
+
+        // private void Awake()
+        // {
+            // GetComponents();
+            //
+            // _movement = new CharacterMovement(_characterController, _inputService, _transformationCalculator);
+            // _rotation = new CharacterRotation(_inputService, _transformationCalculator, _playerAnimator);
+            //
+            // _movement.MovementSpeed = _movementSpeed;
+            // _rotation.TurnSpeed = _turnSpeed;
+            //
+            // _stateMachine = new EntityStateMachine();
+            //
+            // CreateStates();
+        // }
 
         private void Update()
         {
@@ -62,6 +80,7 @@ namespace Code.Entities.PlayerEntity
         {
             _playerAnimator = GetComponent<PlayerAnimator>();
             _characterController = GetComponent<CharacterController>();
+            _cameraController = GameObject.FindWithTag(CameraController).GetComponent<CameraController>();
         }
 
         private void CreateStates()

@@ -12,8 +12,8 @@ namespace Code.Infrastructure
             GameBootstrapState.Factory bootstrapStateFactory,
             LoadProgressState.Factory loadProgressStateFactory,
             LoadLevelState.Factory loadLevelStateFactory,
-            GameLoopState.Factory gameLoopStateFactory,
-            GamePauseState.Factory gamePauseStateFactory
+            GameLoopState.Factory gameLoopStateFactory
+            // GamePauseState.Factory gamePauseStateFactory
         )
         {
             _states = new Dictionary<Type, IExitableState>();
@@ -22,7 +22,7 @@ namespace Code.Infrastructure
             RegisterState(loadProgressStateFactory.Create(this));
             RegisterState(loadLevelStateFactory.Create(this));
             RegisterState(gameLoopStateFactory.Create(this));
-            RegisterState(gamePauseStateFactory.Create(this));
+            // RegisterState(gamePauseStateFactory.Create(this));
         }
 
         private IExitableState _activeState;

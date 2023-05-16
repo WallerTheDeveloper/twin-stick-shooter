@@ -26,22 +26,26 @@ namespace Code.Animator
         private Vector2 _movementJoystickAxis;
         private Vector2 _aimJoystickInput;
 
-        [Inject]
-        public void Construct(
+        private const string HUD = "HUD";
+        
+        public void Initialize(
             ITransformationCalculator transformationCalculator,
-            IInputService inputService,
-            IWeaponSwitchHandler weaponSwitchHandler)
+            IInputService inputService)
         {
             _transformationCalculator = transformationCalculator;
             _inputService = inputService;
-            _weaponSwitchHandler = weaponSwitchHandler;
-        }
+        }   
         
         private void Awake()
         {
-            _weaponSwitchHandler.OnSwitchButtonClick += SwitchWeaponTrigger;
+            _weaponSwitchHandler = GameObject.FindWithTag(HUD).GetComponentInChildren<WeaponSwitchHandler>(); // should be refactored
             _animatorStateHasher.Init();
             _parametersHasher.Init();
+        }
+
+        private void OnEnable()
+        {
+            _weaponSwitchHandler.OnSwitchButtonClick += SwitchWeaponTrigger;
         }
 
         private void OnDestroy()

@@ -1,6 +1,8 @@
 ﻿using Code.Entities.EntitiesTransformation.Calculations;
 using Code.Infrastructure.SceneManagement;
 using Code.Infrastructure.Services.AssetsManagement;
+using Code.Infrastructure.Services.Data;
+using Code.Infrastructure.Services.GameFactory;
 using Code.Infrastructure.Services.Input;
 // using Code.Infrastructure.Services.GameFactory;
 using Zenject;
@@ -18,9 +20,11 @@ namespace Code.Infrastructure.Installers
 
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
 
+            Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
+            
             Container.Bind<IAssets>().To<AssetsProvider>().AsSingle();
             
-            // Container.BindInterfacesAndSelfTo<GameFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameFactory>().AsSingle();
 
             Container
                 .BindFactory<GameBootstrapper, GameBootstrapper.Factory>()

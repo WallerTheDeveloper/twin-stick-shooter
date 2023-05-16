@@ -6,6 +6,9 @@ TagManager:
   tags:
   - FlythroughCam
   - InitialPoint
+  - CameraController
+  - HUD
+  - WeaponSwitchButton
   layers:
   - Default
   - TransparentFX
