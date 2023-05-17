@@ -5,6 +5,7 @@ using Code.Infrastructure.SceneManagement;
 using Code.Infrastructure.Services.Data;
 using Code.Infrastructure.Services.GameFactory;
 using Code.StaticData;
+using Code.StaticData.Enemies;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -48,7 +49,9 @@ namespace Code.Infrastructure.GameStates
 
         private void InitGameWorld()
         {
-            // InitSpawners();
+            _staticData.LoadStaticData();
+
+            InitSpawners();
 
             InitHud();
 
@@ -61,9 +64,9 @@ namespace Code.Infrastructure.GameStates
             string sceneKey = SceneManager.GetActiveScene().name;
             LevelStaticData levelData = _staticData.ForLevel(sceneKey);
 
-            foreach (var enemySpawner in levelData.EnemySpawners)
+            foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
             {
-                //Initialize spawners
+                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.enemyTypeId);
             }
         }
 

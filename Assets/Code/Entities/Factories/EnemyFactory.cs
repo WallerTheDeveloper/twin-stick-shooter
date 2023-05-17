@@ -1,25 +1,28 @@
 ﻿using Code.Entities.EnemyEntity;
-using Code.Infrastructure.Services.AssetsManagement;
+using Code.Infrastructure.Services.Data;
+using Code.StaticData.Enemies;
 using UnityEngine;
 
 namespace Code.Entities.Factories
 {
-    public class EnemyFactory : IEntityFactory
+    public class EnemyFactory : IEnemyFactory
     {
-        private readonly IAssets _assets;
-        public EnemyFactory(IAssets assets)
+        private readonly IStaticDataService _staticDataService;
+        public EnemyFactory(IStaticDataService staticDataService)
         {
-            _assets = assets;
+            _staticDataService = staticDataService;
         }        
-        public IEntity GetEntity(string entityPath, Vector3 position)
+        public IEntity Create(EnemyTypeId enemyTypeId, Vector3 position)
         {
-            GameObject enemyInstance = _assets.Instantiate(entityPath, position);
+            MonsterStaticData monsterStaticData = _staticDataService.ForMonster(enemyTypeId);
 
-            IHostile enemy = enemyInstance.GetComponent<Enemy>();
+            GameObject monsterObject = Object.Instantiate(monsterStaticData.Prefab, position, Quaternion.identity);
+
+            IHostile monster = monsterObject.GetComponent<Enemy>();
             
-            enemy.Initialize();
+            monster.Initialize();
 
-            return enemy;
+            return monster;
         }
     }
 }

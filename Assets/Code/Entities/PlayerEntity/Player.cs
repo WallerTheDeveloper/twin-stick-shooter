@@ -5,6 +5,7 @@ using Code.Entities.EntitiesTransformation;
 using Code.Entities.EntitiesTransformation.Calculations;
 using Code.Entities.StateMachine;
 using Code.Entities.StateMachine.States.PlayerStates;
+using Code.Infrastructure.Services.Data;
 using Code.Infrastructure.Services.Input;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -28,11 +29,11 @@ namespace Code.Entities.PlayerEntity
 
         private const string CameraController = "CameraController";
         public Transform EntityTransform => transform;
-        
+
         public void Initialize()
         {
             GetComponents();
-
+            
             _inputService = new InputService();
             _transformationCalculator = new TransformationCalculator();
             

@@ -2,6 +2,6 @@
 {
     public interface IHostile : IEntity
     {
-        string PrefabPath { get; }
+        // string PrefabPath { get; }
     }
 }

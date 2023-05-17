@@ -4,6 +4,7 @@ using Code.Infrastructure.Services.AssetsManagement;
 using Code.Infrastructure.Services.Data;
 using Code.Infrastructure.Services.GameFactory;
 using Code.Infrastructure.Services.Input;
+using UnityEngine;
 // using Code.Infrastructure.Services.GameFactory;
 using Zenject;
 
@@ -18,12 +19,12 @@ namespace Code.Infrastructure.Installers
                 .ByInstaller<GameStateMachineInstaller>()
                 .AsSingle();
 
-            Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
-
             Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
             
+            Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
+
             Container.Bind<IAssets>().To<AssetsProvider>().AsSingle();
-            
+
             Container.BindInterfacesAndSelfTo<GameFactory>().AsSingle();
 
             Container

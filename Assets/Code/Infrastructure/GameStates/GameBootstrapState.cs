@@ -1,4 +1,5 @@
 using Code.Infrastructure.SceneManagement;
+using Code.Infrastructure.Services.Data;
 using Zenject;
 
 namespace Code.Infrastructure.GameStates
@@ -7,7 +8,6 @@ namespace Code.Infrastructure.GameStates
     {
         private readonly IGameStateMachine _gameStateMachine;
         private ISceneLoader _sceneLoader;
-
         public GameBootstrapState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader)
         {
             _gameStateMachine = gameStateMachine;
@@ -25,7 +25,7 @@ namespace Code.Infrastructure.GameStates
         {
             _gameStateMachine.Enter<LoadProgressState>();
         }
-
+        
         public class Factory : PlaceholderFactory<IGameStateMachine, GameBootstrapState>
         {
         }

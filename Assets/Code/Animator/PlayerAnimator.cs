@@ -38,7 +38,8 @@ namespace Code.Animator
         
         private void Awake()
         {
-            _weaponSwitchHandler = GameObject.FindWithTag(HUD).GetComponentInChildren<WeaponSwitchHandler>(); // should be refactored
+            // should be refactored - try using Signals from Zenject
+            _weaponSwitchHandler = GameObject.FindWithTag(HUD).GetComponentInChildren<WeaponSwitchHandler>(); 
             _animatorStateHasher.Init();
             _parametersHasher.Init();
         }

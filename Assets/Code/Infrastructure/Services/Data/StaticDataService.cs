@@ -8,26 +8,26 @@ namespace Code.Infrastructure.Services.Data
 {
     public class StaticDataService : IStaticDataService
     {
-        private Dictionary<MonsterTypeId, MonsterStaticData> _monsters;
-        private Dictionary<string, LevelStaticData> _levels;
+        private Dictionary<EnemyTypeId, MonsterStaticData> _monstersData;
+        private Dictionary<string, LevelStaticData> _levelsData;
         
-        public void LoadMonsters()
+        public void LoadStaticData()
         {
-            _monsters = Resources
+            _monstersData = Resources
                 .LoadAll<MonsterStaticData>("StaticData/Monsters")
-                .ToDictionary(x => x.MonsterTypeId, x => x);
-            _levels = Resources
+                .ToDictionary(x => x.enemyTypeId, x => x);
+            _levelsData = Resources
                 .LoadAll<LevelStaticData>("StaticData/Levels")
                 .ToDictionary(x => x.LevelKey, x => x);
         }
 
-        public MonsterStaticData ForMonster(MonsterTypeId typeId) =>
-            _monsters.TryGetValue(typeId, out MonsterStaticData staticData)
+        public MonsterStaticData ForMonster(EnemyTypeId typeId) =>
+            _monstersData.TryGetValue(typeId, out MonsterStaticData staticData)
                 ? staticData
                 : null;
 
         public LevelStaticData ForLevel(string sceneKey) =>
-            _levels.TryGetValue(sceneKey, out LevelStaticData staticData)
+            _levelsData.TryGetValue(sceneKey, out LevelStaticData staticData)
                 ? staticData
                 : null;
     }

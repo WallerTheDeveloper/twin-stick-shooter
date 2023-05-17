@@ -18,7 +18,7 @@ namespace Code.Infrastructure
         {
             _gameStateMachine.Enter<GameBootstrapState>();
             
-            DontDestroyOnLoad(this);
+            // DontDestroyOnLoad(this);
         }
         
         public class Factory : PlaceholderFactory<GameBootstrapper>

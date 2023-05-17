@@ -1,35 +1,42 @@
-﻿using System;
-using Code.Entities.EnemyEntity;
-using Code.Infrastructure.Services.AssetsManagement;
-using Sirenix.OdinInspector;
+﻿using Code.Infrastructure.Services.Data;
+using Code.StaticData.Enemies;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Entities.Factories
 {
-    public class EnemySpawner : SerializedMonoBehaviour
+    public class EnemySpawner : MonoBehaviour
     {
-        [field: SerializeField] private IHostile _hostileEntity { get; set; }
+        public EnemyTypeId enemyType;
         [SerializeField] private float _spawnInterval;
         
-        private IEntityFactory _enemyFactory;
-        private IAssets _assets;
+        private IEnemyFactory _enemyFactory;
+        private IStaticDataService _staticDataService;
 
-        private float timer;
+        private float _timer;
 
+        // [Inject]
+        // public void Construct(IStaticDataService staticDataService)
+        // {
+            // _staticDataService = staticDataService;
+        // }
+        
         private void Awake()
         {
-            _assets = new AssetsProvider();
-            _enemyFactory = new EnemyFactory(_assets);
+            _staticDataService = new StaticDataService();
+            _staticDataService.LoadStaticData();
+            
+            _enemyFactory = new EnemyFactory(_staticDataService);
         }
 
         private void Update()
         {
-            timer += Time.deltaTime;
-            if (timer >= _spawnInterval)
+            _timer += Time.deltaTime;
+            if (_timer >= _spawnInterval)
             {
-                _enemyFactory.GetEntity(_hostileEntity.PrefabPath, transform.position);
-                timer -= _spawnInterval;
-            }
+                _enemyFactory.Create(enemyType, transform.position);
+                _timer = 0;
+            }             
         }
     }
 }

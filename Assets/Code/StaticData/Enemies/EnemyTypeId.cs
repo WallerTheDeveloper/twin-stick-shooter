@@ -1,6 +1,6 @@
 namespace Code.StaticData.Enemies
 {
-    public enum MonsterTypeId
+    public enum EnemyTypeId
     {
         Chomper = 0,
     }

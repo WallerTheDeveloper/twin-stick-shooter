@@ -5,8 +5,8 @@ namespace Code.Infrastructure.Services.Data
 {
     public interface IStaticDataService : IService
     {
-        void LoadMonsters();
-        MonsterStaticData ForMonster(MonsterTypeId typeId);
+        void LoadStaticData();
+        MonsterStaticData ForMonster(EnemyTypeId typeId);
         LevelStaticData ForLevel(string sceneKey);
     }
 }

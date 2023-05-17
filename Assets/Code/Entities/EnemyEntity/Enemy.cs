@@ -20,7 +20,7 @@ namespace Code.Entities.EnemyEntity
     {
         [SerializeField] private AISettings _settings;
         [SerializeField] private PatrolPath _patrolPath;
-        [field: SerializeField] public string PrefabPath { get; set; }
+        // [field: SerializeField] public string PrefabPath { get; set; }
 
         private IStateMachine _stateMachine;
         private NavMeshAgent _navMeshAgent;
@@ -30,8 +30,7 @@ namespace Code.Entities.EnemyEntity
         private IAttackBehaviour _attackBehaviour;
         private ITimerUpdater _timerUpdater;
         private IDeathComponent _deathComponent;
-       
-
+        
         public IHealth Health;
         public Transform EntityTransform => transform;
 
@@ -55,6 +54,7 @@ namespace Code.Entities.EnemyEntity
             
             Health = new Health(15f);
             
+            //move to MonsterStaticData?
             _movement.MovementSpeed = _settings.MovementSpeed;
             
             _stateMachine = new EntityStateMachine();

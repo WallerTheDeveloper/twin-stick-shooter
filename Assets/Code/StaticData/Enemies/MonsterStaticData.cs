@@ -1,21 +1,22 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.StaticData.Enemies
 {
     [CreateAssetMenu(fileName = "MonsterData", menuName = "StaticData/Monster")]
     public class MonsterStaticData : ScriptableObject
     {
-        public MonsterTypeId MonsterTypeId;
+        [FormerlySerializedAs("MonsterTypeId")] public EnemyTypeId enemyTypeId;
       
         [Range(1, 100)]
         public int Hp;
 
-        [Range(1f, 30)]
-        public float Damage;
+        // [Range(1f, 30)]
+        // public float Damage;
 
-        public int MinLoot;
+        // public int MinLoot;
 
-        public int MaxLoot;
+        // public int MaxLoot;
 
         [Range(1f, 10f)]
         public float MoveSpeed;

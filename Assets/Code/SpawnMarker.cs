@@ -1,10 +1,11 @@
 ﻿using Code.StaticData.Enemies;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code
 {
     public class SpawnMarker : MonoBehaviour
     {
-        public MonsterTypeId MonsterTypeId;
+        [FormerlySerializedAs("MonsterTypeId")] public EnemyTypeId enemyTypeId;
     }
 }
