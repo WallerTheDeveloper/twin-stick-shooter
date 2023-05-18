@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
+using Code.Entities.EnemyEntity.Patrol;
 
 namespace Editor
 {
@@ -22,9 +23,21 @@ namespace Editor
             {
                 levelData.EnemySpawners = 
                     FindObjectsOfType<SpawnMarker>()
-                        .Select(x => new EnemySpawnerData(x.GetComponent<UniqueId>().Id, x.enemyTypeId, x.transform.position))
+                        .Select(x => new EnemySpawnerData(
+                            x.GetComponent<UniqueId>().Id,
+                            x.EnemyTypeId, 
+                            x.transform.position))
                         .ToList();
+                
                 levelData.LevelKey = SceneManager.GetActiveScene().name;
+                
+                levelData.PatrolPaths = 
+                    FindObjectsOfType<PatrolPathMarker>()
+                        .Select(x => new PatrolPathData(
+                            x.GetComponent<UniqueId>().Id,
+                            x.transform.position
+                            ))
+                        .ToList();
             }
 
             EditorUtility.SetDirty(target);

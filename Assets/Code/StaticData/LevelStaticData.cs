@@ -9,5 +9,6 @@ namespace Code.StaticData
     {
         public string LevelKey;
         public List<EnemySpawnerData> EnemySpawners;
+        public List<PatrolPathData> PatrolPaths;
     }
 }

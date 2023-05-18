@@ -1,4 +1,5 @@
 ﻿using Code.Entities;
+using Code.Entities.EnemyEntity.Patrol;
 using Code.Entities.Factories;
 using Code.Infrastructure.Services.AssetsManagement;
 using Code.StaticData.Enemies;
@@ -23,12 +24,17 @@ namespace Code.Infrastructure.Services.GameFactory
             GameObject hud = _assets.Instantiate(AssetPath.HUD_PATH);
             return hud;
         }
-
+        
         public void CreateSpawner(Vector3 at, EnemyTypeId enemyTypeId)
         {
             EnemySpawner enemySpawner = _assets.Instantiate(AssetPath.SPAWNER_PATH, at).GetComponent<EnemySpawner>();
             
             enemySpawner.enemyType = enemyTypeId;
+        }
+
+        public void CreatePatrolPath(Vector3 at)
+        {
+            PatrolPath patrolPath = _assets.Instantiate(AssetPath.PATROL_PATH, at).GetComponent<PatrolPath>();
         }
     }
 }

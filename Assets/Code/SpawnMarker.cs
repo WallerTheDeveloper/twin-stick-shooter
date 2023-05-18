@@ -6,6 +6,7 @@ namespace Code
 {
     public class SpawnMarker : MonoBehaviour
     {
-        [FormerlySerializedAs("MonsterTypeId")] public EnemyTypeId enemyTypeId;
+        public EnemyTypeId EnemyTypeId;
+        // public PatrolPath PatrolPath;
     }
 }

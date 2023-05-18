@@ -28,8 +28,7 @@ namespace Code.Entities.EnemyEntity.Patrol
             _movement = movement;
             _timerUpdater = timerUpdater;
         }
-
-
+    
         public void PatrolArea()
         {
             Vector3 nextPosition = _entity.EntityTransform.position;

@@ -1,4 +1,5 @@
-﻿using Code.StaticData.Enemies;
+﻿using Code.Entities.EnemyEntity.Patrol;
+using Code.StaticData.Enemies;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

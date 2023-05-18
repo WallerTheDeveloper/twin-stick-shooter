@@ -1,4 +1,5 @@
-﻿using Code.Infrastructure.Services.Data;
+﻿using Code.Entities.EnemyEntity.Patrol;
+using Code.Infrastructure.Services.Data;
 using Code.StaticData.Enemies;
 using UnityEngine;
 using Zenject;
@@ -23,6 +24,7 @@ namespace Code.Entities.Factories
         
         private void Awake()
         {
+            //should be refactored!
             _staticDataService = new StaticDataService();
             _staticDataService.LoadStaticData();
             

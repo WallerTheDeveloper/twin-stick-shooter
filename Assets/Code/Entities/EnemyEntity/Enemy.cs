@@ -19,7 +19,7 @@ namespace Code.Entities.EnemyEntity
     public class Enemy : MonoBehaviour, IHostile
     {
         [SerializeField] private AISettings _settings;
-        [SerializeField] private PatrolPath _patrolPath;
+        // [SerializeField] private PatrolPath _patrolPath;
         // [field: SerializeField] public string PrefabPath { get; set; }
 
         private IStateMachine _stateMachine;
@@ -35,6 +35,8 @@ namespace Code.Entities.EnemyEntity
         public Transform EntityTransform => transform;
 
         public Transform TargetTransform => _targetTransform;
+        
+        public PatrolPath PatrolPath { get; set; }
 
         [Inject]
         public void Construct(Player player)
@@ -49,7 +51,7 @@ namespace Code.Entities.EnemyEntity
             _timerUpdater = new TimerUpdater();
             
             _movement = new NavMeshMovement(_navMeshAgent);
-            _patrolBehaviour = new PatrolBehaviour(this, _patrolPath, _settings, _movement, _timerUpdater);
+            _patrolBehaviour = new PatrolBehaviour(this, PatrolPath, _settings, _movement, _timerUpdater);
             _attackBehaviour = new AttackBehaviour(this, _settings);
             
             Health = new Health(15f);

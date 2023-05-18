@@ -1,4 +1,5 @@
 ﻿using Code.Entities.EnemyEntity;
+using Code.Entities.EnemyEntity.Patrol;
 using Code.Infrastructure.Services.Data;
 using Code.StaticData.Enemies;
 using UnityEngine;

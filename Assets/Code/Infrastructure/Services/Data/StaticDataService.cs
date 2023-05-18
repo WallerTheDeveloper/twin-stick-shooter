@@ -15,7 +15,7 @@ namespace Code.Infrastructure.Services.Data
         {
             _monstersData = Resources
                 .LoadAll<MonsterStaticData>("StaticData/Monsters")
-                .ToDictionary(x => x.enemyTypeId, x => x);
+                .ToDictionary(x => x.EnemyTypeId, x => x);
             _levelsData = Resources
                 .LoadAll<LevelStaticData>("StaticData/Levels")
                 .ToDictionary(x => x.LevelKey, x => x);

@@ -51,7 +51,7 @@ namespace Code.Infrastructure.GameStates
         {
             _staticData.LoadStaticData();
 
-            InitSpawners();
+            InitSceneStaticObjects();
 
             InitHud();
 
@@ -59,17 +59,31 @@ namespace Code.Infrastructure.GameStates
 
         }
 
-        private void InitSpawners()
+        private void InitSceneStaticObjects()
         {
             string sceneKey = SceneManager.GetActiveScene().name;
             LevelStaticData levelData = _staticData.ForLevel(sceneKey);
 
+            InitSpawners(levelData);
+
+            InitPatrolPaths(levelData);
+        }
+
+        private void InitSpawners(LevelStaticData levelData)
+        {
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
             {
-                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.enemyTypeId);
+                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.EnemyTypeId);
             }
         }
 
+        private void InitPatrolPaths(LevelStaticData levelData)
+        {
+            foreach (PatrolPathData pathData in levelData.PatrolPaths)
+            {
+                _gameFactory.CreatePatrolPath(pathData.Position);
+            }
+        }
         private void InitPlayer()
         {
             GameObject playerObject = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.StaticData.Enemies
 {
@@ -8,13 +7,13 @@ namespace Code.StaticData.Enemies
     public class EnemySpawnerData
     {
         public string Id;
-        [FormerlySerializedAs("MonsterTypeId")] public EnemyTypeId enemyTypeId;
+        public EnemyTypeId EnemyTypeId;
         public Vector3 Position;
         
         public EnemySpawnerData(string id, EnemyTypeId enemyTypeId, Vector3 position)
         {
             Id = id;
-            this.enemyTypeId = enemyTypeId;
+            EnemyTypeId = enemyTypeId;
             Position = position;
         }
     }
