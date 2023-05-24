@@ -38,7 +38,7 @@ namespace Code.Entities.Factories
             _timer += Time.deltaTime;
             if (_timer >= _spawnInterval)
             {
-                if (_initialAmount >= 1) return;
+                if (_initialAmount >= 3) return;
                 
                 _initialAmount++;
                 

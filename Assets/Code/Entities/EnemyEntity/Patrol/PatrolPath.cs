@@ -5,12 +5,10 @@ namespace Code.Entities.EnemyEntity.Patrol
     [RequireComponent(typeof(SphereCollider))]
     public class PatrolPath : MonoBehaviour, IFindableObject
     {
-        [field: SerializeField] public FindableObjectId FindableObjectId { get; set; }
-
         const float waypointGizmoRadius = 0.3f;
 
-        bool AssignedToEntity { get; }
-
+        public bool IsAssignedToEntity { get; set; } = false;
+        
         public int GetNextIndex(int i)
         {
             if (i + 1 == transform.childCount)

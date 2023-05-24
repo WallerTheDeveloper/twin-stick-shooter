@@ -48,6 +48,8 @@ namespace Code.Entities.EnemyEntity
             GetComponents();
 
             _assignedPatrolPath = _objectFinder.FindClosestObjectOfType<PatrolPath>();
+
+            _assignedPatrolPath.IsAssignedToEntity = true;
             
             _timerUpdater = new TimerUpdater();
             
