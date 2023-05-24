@@ -2,9 +2,14 @@
 
 namespace Code.Entities.EnemyEntity.Patrol
 {
-    public class PatrolPath : MonoBehaviour
+    [RequireComponent(typeof(SphereCollider))]
+    public class PatrolPath : MonoBehaviour, IFindableObject
     {
+        [field: SerializeField] public FindableObjectId FindableObjectId { get; set; }
+
         const float waypointGizmoRadius = 0.3f;
+
+        bool AssignedToEntity { get; }
 
         public int GetNextIndex(int i)
         {
@@ -29,5 +34,6 @@ namespace Code.Entities.EnemyEntity.Patrol
                 Gizmos.DrawLine(GetWaypoint(i), GetWaypoint(j));
             }
         }
+
     }
 }

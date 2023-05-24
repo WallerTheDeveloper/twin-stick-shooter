@@ -1,6 +1,6 @@
 ﻿using Code.Entities.EnemyEntity.Data;
 using Code.Entities.EntitiesTransformation;
-using Code.Extensions;
+using Code.Misc;
 using UnityEngine;
 
 namespace Code.Entities.EnemyEntity.Patrol
@@ -14,6 +14,7 @@ namespace Code.Entities.EnemyEntity.Patrol
         private readonly ITimerUpdater _timerUpdater;
 
         private int _currentWaypointIndex = 0;
+       
 
         public PatrolBehaviour(
             IEntity entity,
@@ -48,6 +49,7 @@ namespace Code.Entities.EnemyEntity.Patrol
                 _movement.Move(nextPosition, _movement.MovementSpeed);
             }
         }
+
         private bool AtWaypoint()
         {
             float distanceToWaypoint = Vector3.Distance(_entity.EntityTransform.position, GetCurrentWaypoint());

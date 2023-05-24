@@ -1,6 +1,6 @@
 ﻿using Code.Entities.EnemyEntity.Data;
 using Code.Entities.EntitiesTransformation;
-using Code.Extensions;
+using Code.Misc;
 using UnityEngine;
 
 namespace Code.Entities.StateMachine.States.EnemyStates

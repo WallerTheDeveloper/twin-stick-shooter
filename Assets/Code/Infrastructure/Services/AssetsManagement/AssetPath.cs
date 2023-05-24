@@ -6,5 +6,6 @@ namespace Code.Infrastructure.Services.AssetsManagement
         public const string HUD_PATH = "UI/HUD";
         public const string SPAWNER_PATH = "Enemies/Reproducer/Reproducer";
         public const string PATROL_PATH = "Enemies/Patroling/PatrolPath";
+        public const string ENEMYBASE_PATH = "Enemies/Enemy";
     }
 }

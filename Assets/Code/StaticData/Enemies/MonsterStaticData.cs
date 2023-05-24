@@ -24,7 +24,8 @@ namespace Code.StaticData.Enemies
 
         // [Range(0.5f, 1)]
         // public float AttackEffectiveDistance;
-        
-        public GameObject Prefab;
+
+        public GameObject ParentPrefab;
+        public GameObject MonsterPrefab;
     }
 }

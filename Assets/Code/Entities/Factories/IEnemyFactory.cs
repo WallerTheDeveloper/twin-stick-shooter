@@ -7,6 +7,6 @@ namespace Code.Entities.Factories
 {
     public interface IEnemyFactory
     {
-        public IEntity Create(EnemyTypeId enemyType, Vector3 position);
+        public IEntity Create(EnemyTypeId enemyType, Transform position, float positionCoefficient);
     }
 }

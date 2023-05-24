@@ -51,12 +51,11 @@ namespace Code.Infrastructure.GameStates
         {
             _staticData.LoadStaticData();
 
-            InitSceneStaticObjects();
-
             InitHud();
 
             InitPlayer();
 
+            InitSceneStaticObjects();
         }
 
         private void InitSceneStaticObjects()
@@ -87,7 +86,7 @@ namespace Code.Infrastructure.GameStates
         private void InitPlayer()
         {
             GameObject playerObject = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
-
+            
             playerObject.GetComponent<Player>().Initialize();
         }
 

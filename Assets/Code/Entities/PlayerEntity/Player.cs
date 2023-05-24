@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Code.Animator;
 using Code.Camera;
 using Code.Entities.EntitiesTransformation;
@@ -40,7 +41,7 @@ namespace Code.Entities.PlayerEntity
             _playerAnimator.Initialize(_transformationCalculator, _inputService);
             _cameraController.Initialize(_inputService);
             
-            _movement = new CharacterMovement(_characterController, _inputService, _transformationCalculator);
+            _movement = new CharacterMovement(_characterController, _transformationCalculator);
             _rotation = new CharacterRotation(_inputService, _transformationCalculator, _playerAnimator);
             
             _movement.MovementSpeed = _movementSpeed;
@@ -51,22 +52,7 @@ namespace Code.Entities.PlayerEntity
             CreateStates();
             
         }
-
-        // private void Awake()
-        // {
-            // GetComponents();
-            //
-            // _movement = new CharacterMovement(_characterController, _inputService, _transformationCalculator);
-            // _rotation = new CharacterRotation(_inputService, _transformationCalculator, _playerAnimator);
-            //
-            // _movement.MovementSpeed = _movementSpeed;
-            // _rotation.TurnSpeed = _turnSpeed;
-            //
-            // _stateMachine = new EntityStateMachine();
-            //
-            // CreateStates();
-        // }
-
+        
         private void Update()
         {
             _stateMachine.Tick();
@@ -111,6 +97,25 @@ namespace Code.Entities.PlayerEntity
 
         private void StateTransit(IEntityState from, IEntityState to, Func<bool> condition) => 
             _stateMachine.AddTransition(from, to, condition);
+        
+        public class Factory : PlaceholderFactory<GameObject, Transform, Player>
+        {
+            private readonly DiContainer _container;
+            public Factory(DiContainer container)
+            {
+                _container = container;
+            }
 
+            public override Player Create(GameObject playerPrefab, Transform at)
+            {
+                GameObject player = _container.InstantiatePrefab(playerPrefab);
+                player.transform.position = at.position;
+                
+                //  ¯\_(ツ)_/¯ Refactor later that mf
+                _container.Bind<Player>().FromInstance(player.GetComponent<Player>());
+                
+                return player.GetComponent<Player>();
+            }
+        }
     }
 }

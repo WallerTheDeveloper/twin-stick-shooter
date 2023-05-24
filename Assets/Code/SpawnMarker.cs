@@ -7,6 +7,5 @@ namespace Code
     public class SpawnMarker : MonoBehaviour
     {
         public EnemyTypeId EnemyTypeId;
-        // public PatrolPath PatrolPath;
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.Timers;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Code.Extensions
+namespace Code.Misc
 {
     public class TimerUpdater : ITimerUpdater
     {

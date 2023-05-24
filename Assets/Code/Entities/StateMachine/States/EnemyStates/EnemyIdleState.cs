@@ -1,6 +1,4 @@
-﻿using Code.Extensions;
-
-namespace Code.Entities.StateMachine.States.EnemyStates
+﻿namespace Code.Entities.StateMachine.States.EnemyStates
 {
     public class EnemyIdleState : IEntityState
     {

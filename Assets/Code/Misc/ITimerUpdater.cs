@@ -1,4 +1,4 @@
-﻿namespace Code.Extensions
+﻿namespace Code.Misc
 {
     public interface ITimerUpdater
     {

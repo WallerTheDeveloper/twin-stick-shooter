@@ -1,27 +1,26 @@
 ﻿using System;
-using Code.Combat;
 using Code.Entities.EnemyEntity.Attack;
 using Code.Entities.EnemyEntity.Data;
 using Code.Entities.EnemyEntity.Death;
 using Code.Entities.EnemyEntity.Patrol;
 using Code.Entities.EntitiesTransformation;
-using Code.Entities.Factories;
 using Code.Entities.PlayerEntity;
 using Code.Entities.StateMachine;
 using Code.Entities.StateMachine.States.EnemyStates;
-using Code.Extensions;
+using Code.Misc;
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
 namespace Code.Entities.EnemyEntity
 {
-    public class Enemy : MonoBehaviour, IHostile
+    public class Enemy : SerializedMonoBehaviour, IHostile
     {
+        // [field: SerializeField] private PatrolPath PatrolPath { get; set; }
         [SerializeField] private AISettings _settings;
-        // [SerializeField] private PatrolPath _patrolPath;
-        // [field: SerializeField] public string PrefabPath { get; set; }
-
+            
         private IStateMachine _stateMachine;
         private NavMeshAgent _navMeshAgent;
         private IMovement _movement;
@@ -30,13 +29,13 @@ namespace Code.Entities.EnemyEntity
         private IAttackBehaviour _attackBehaviour;
         private ITimerUpdater _timerUpdater;
         private IDeathComponent _deathComponent;
+        private ObjectFinder _objectFinder;
+        private PatrolPath _assignedPatrolPath;
         
         public IHealth Health;
         public Transform EntityTransform => transform;
 
         public Transform TargetTransform => _targetTransform;
-        
-        public PatrolPath PatrolPath { get; set; }
 
         [Inject]
         public void Construct(Player player)
@@ -47,42 +46,24 @@ namespace Code.Entities.EnemyEntity
         public void Initialize()
         {
             GetComponents();
+
+            _assignedPatrolPath = _objectFinder.FindClosestObjectOfType<PatrolPath>();
             
             _timerUpdater = new TimerUpdater();
             
             _movement = new NavMeshMovement(_navMeshAgent);
-            _patrolBehaviour = new PatrolBehaviour(this, PatrolPath, _settings, _movement, _timerUpdater);
+            _patrolBehaviour = new PatrolBehaviour(this, _assignedPatrolPath, _settings, _movement, _timerUpdater);
             _attackBehaviour = new AttackBehaviour(this, _settings);
             
             Health = new Health(15f);
             
-            //move to MonsterStaticData?
+            //move to MonsterStaticData? (on second thought - to achieve what?)
             _movement.MovementSpeed = _settings.MovementSpeed;
             
             _stateMachine = new EntityStateMachine();
             
             CreateStates();
         }
-        
-        // private void Awake()
-        // {
-        //     GetComponents();
-        //
-        //     _timerUpdater = new TimerUpdater();
-        //     
-        //     _movement = new NavMeshMovement(_navMeshAgent);
-        //     _patrolBehaviour = new PatrolBehaviour(this, _patrolPath, _settings, _movement, _timerUpdater);
-        //     _attackBehaviour = new AttackBehaviour(this, _settings);
-        //
-        //     Health = new Health(15f);
-        //     
-        //     _movement.MovementSpeed = _settings.MovementSpeed;
-        //     
-        //     _stateMachine = new EntityStateMachine();
-        //     
-        //     CreateStates();
-        // }
-
         private void Update()
         {
             _stateMachine.Tick();
@@ -93,8 +74,9 @@ namespace Code.Entities.EnemyEntity
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _deathComponent = GetComponent<DeathComponent>();
+            _objectFinder = GetComponent<ObjectFinder>();
         }
-
+        
         private void CreateStates()
         {
             var enemyPursueState = new EnemyPursueState(_targetTransform, _timerUpdater, _movement);
@@ -123,7 +105,7 @@ namespace Code.Entities.EnemyEntity
             Func<bool> CanAttackTarget() => () => _attackBehaviour.CanAttack(_targetTransform.gameObject);
             Func<bool> IsDead() => () => Health.IsDead();
         }
-
+        
         private void RegisterTransition(IEntityState from, IEntityState to, Func<bool> condition) => 
             _stateMachine.AddTransition(from, to, condition);
 
@@ -134,6 +116,21 @@ namespace Code.Entities.EnemyEntity
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, _settings.ChaseDistance);
         }
+        public class Factory : PlaceholderFactory<GameObject, GameObject, Enemy>
+        {
+            private readonly DiContainer _container;
+            public Factory(DiContainer container)
+            {
+                _container = container;
+            }
 
+            public override Enemy Create(GameObject parent, GameObject child)
+            {
+                GameObject mainPrefab = _container.InstantiatePrefab(parent);
+                GameObject childPrefab = _container.InstantiatePrefab(child, mainPrefab.transform);
+
+                return mainPrefab.GetComponent<Enemy>();
+            }
+        }
     }
 }

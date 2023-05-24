@@ -1,4 +1,6 @@
-﻿using Code.Entities.EntitiesTransformation.Calculations;
+﻿using Code.Entities.EnemyEntity;
+using Code.Entities.EntitiesTransformation.Calculations;
+using Code.Entities.Factories;
 using Code.Infrastructure.SceneManagement;
 using Code.Infrastructure.Services.AssetsManagement;
 using Code.Infrastructure.Services.Data;
@@ -19,7 +21,6 @@ namespace Code.Infrastructure.Installers
                 .ByInstaller<GameStateMachineInstaller>()
                 .AsSingle();
 
-            Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
 

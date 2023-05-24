@@ -7,18 +7,15 @@ namespace Code.Entities.EntitiesTransformation
     public class CharacterMovement : IMovement
     {
         private readonly CharacterController _characterController;
-        private readonly IInputService _inputService;
         private readonly ITransformationCalculator _transformationCalculator;
 
         public float MovementSpeed { get; set; }
 
         public CharacterMovement(
             CharacterController characterController,
-            IInputService inputService,
             ITransformationCalculator transformationCalculator)
         {
             _characterController = characterController;
-            _inputService = inputService;
             _transformationCalculator = transformationCalculator;
         }
 
