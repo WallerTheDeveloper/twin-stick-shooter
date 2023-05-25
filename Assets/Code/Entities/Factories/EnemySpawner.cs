@@ -10,17 +10,18 @@ namespace Code.Entities.Factories
 {
     public class EnemySpawner : MonoBehaviour
     {
-        public GameObject Model;
+        // public GameObject Model;
         public EnemyTypeId EnemyType;
         [SerializeField] private float _spawnInterval;
         [SerializeField] private float _spawnPositionCoefficient; // change name later
+        [SerializeField] private int _maxMonsterAmount; // change carefully - every enemy must have assigned unique patrol path
         
         private IEnemyFactory _enemyFactory;
         private IStaticDataService _staticDataService;
         private Enemy.Factory _factory;
 
         private float _timer;
-        private int _initialAmount = 0;
+        private int _spawnedAmount = 0;
         
         [Inject]
         public void Construct(Enemy.Factory enemyFactory, IStaticDataService staticDataService)
@@ -38,9 +39,10 @@ namespace Code.Entities.Factories
             _timer += Time.deltaTime;
             if (_timer >= _spawnInterval)
             {
-                if (_initialAmount >= 3) return;
-                
-                _initialAmount++;
+
+                if (_spawnedAmount >= _maxMonsterAmount) return;
+
+                _spawnedAmount++;
                 
                 _enemyFactory.Create(EnemyType, transform, _spawnPositionCoefficient);
                 

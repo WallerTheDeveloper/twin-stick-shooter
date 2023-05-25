@@ -38,7 +38,7 @@ namespace Code.Animator
         
         private void Awake()
         {
-            // should be refactored - try using Signals from Zenject
+            // should be refactored - try using Signals from Zenject / or better approach would be inject service
             _weaponSwitchHandler = GameObject.FindWithTag(HUD).GetComponentInChildren<WeaponSwitchHandler>(); 
             _animatorStateHasher.Init();
             _parametersHasher.Init();

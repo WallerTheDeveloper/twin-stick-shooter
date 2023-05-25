@@ -1,18 +1,11 @@
-﻿using Code.Entities.EnemyEntity;
-using Code.Entities.EntitiesTransformation.Calculations;
-using Code.Entities.Factories;
-using Code.Infrastructure.SceneManagement;
+﻿using Code.Infrastructure.SceneManagement;
 using Code.Infrastructure.Services.AssetsManagement;
-using Code.Infrastructure.Services.Data;
 using Code.Infrastructure.Services.GameFactory;
-using Code.Infrastructure.Services.Input;
-using UnityEngine;
-// using Code.Infrastructure.Services.GameFactory;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
 {
-    public class GameInstaller : MonoInstaller
+    public class GameInstaller : MonoInstaller<GameInstaller>
     {
         public override void InstallBindings()
         {
@@ -27,7 +20,7 @@ namespace Code.Infrastructure.Installers
             Container.Bind<IAssets>().To<AssetsProvider>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<GameFactory>().AsSingle();
-
+            
             Container
                 .BindFactory<GameBootstrapper, GameBootstrapper.Factory>()
                 .FromComponentInNewPrefabResource(InfrastructureAssetPath.GameBootstrapper);

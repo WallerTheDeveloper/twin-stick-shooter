@@ -1,9 +1,6 @@
-﻿using Code.Entities.EnemyEntity.Patrol;
-
-namespace Code.Entities.EnemyEntity
+﻿namespace Code.Entities.EnemyEntity
 {
     public interface IHostile : IEntity
     {
-        // string PrefabPath { get; }
     }
 }
