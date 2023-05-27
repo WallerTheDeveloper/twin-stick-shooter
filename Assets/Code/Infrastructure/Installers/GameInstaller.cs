@@ -1,5 +1,6 @@
 ﻿using Code.Infrastructure.SceneManagement;
 using Code.Infrastructure.Services.AssetsManagement;
+using Code.Infrastructure.Services.Core;
 using Code.Infrastructure.Services.GameFactory;
 using Zenject;
 
@@ -9,12 +10,13 @@ namespace Code.Infrastructure.Installers
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<UIMediator>().AsSingle();
+
             Container.Bind<IGameStateMachine>()
                 .FromSubContainerResolve()
                 .ByInstaller<GameStateMachineInstaller>()
                 .AsSingle();
 
-            
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
 
             Container.Bind<IAssets>().To<AssetsProvider>().AsSingle();
@@ -30,6 +32,7 @@ namespace Code.Infrastructure.Installers
                 .To<CoroutineRunnerObject>()
                 .FromComponentInNewPrefabResource(InfrastructureAssetPath.CoroutineRunnerPath)
                 .AsSingle();
+
         }
     }
 

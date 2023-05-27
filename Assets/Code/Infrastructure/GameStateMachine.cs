@@ -10,6 +10,7 @@ namespace Code.Infrastructure
 
         public GameStateMachine(
             GameBootstrapState.Factory bootstrapStateFactory,
+            LoadMainMenuState.Factory loadMainMenuStateFactory,
             LoadProgressState.Factory loadProgressStateFactory,
             LoadLevelState.Factory loadLevelStateFactory,
             GameLoopState.Factory gameLoopStateFactory
@@ -19,6 +20,7 @@ namespace Code.Infrastructure
             _states = new Dictionary<Type, IExitableState>();
 
             RegisterState(bootstrapStateFactory.Create(this));
+            RegisterState(loadMainMenuStateFactory.Create(this));
             RegisterState(loadProgressStateFactory.Create(this));
             RegisterState(loadLevelStateFactory.Create(this));
             RegisterState(gameLoopStateFactory.Create(this));

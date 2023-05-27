@@ -1,4 +1,5 @@
 ﻿using Code.UI;
+using Code.UI.Menu;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
@@ -7,6 +8,7 @@ namespace Code.Infrastructure.Installers
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<MainMenuView>().AsSingle();
             // Container.Bind<IWeaponSwitchHandler>().To<WeaponSwitchHandler>().AsSingle().NonLazy();
         }
     }

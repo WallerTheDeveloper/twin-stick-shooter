@@ -2,6 +2,7 @@
 using Code.Animator.Hashers;
 using Code.Animator.Logic;
 using Code.Entities.EntitiesTransformation.Calculations;
+using Code.Infrastructure.Services.Core;
 using Code.Infrastructure.Services.Input;
 using Code.UI;
 using UnityEngine;  
@@ -22,7 +23,6 @@ namespace Code.Animator
         private ITransformationCalculator _transformationCalculator;
         private IInputService _inputService;
         private IWeaponSwitchHandler _weaponSwitchHandler;
-
         private Vector2 _movementJoystickAxis;
         private Vector2 _aimJoystickInput;
 
@@ -38,7 +38,7 @@ namespace Code.Animator
         
         private void Awake()
         {
-            // should be refactored - try using Signals from Zenject / or better approach would be inject service
+            // should be refactored - try using Signals from Zenject / or better use mediator pattern
             _weaponSwitchHandler = GameObject.FindWithTag(HUD).GetComponentInChildren<WeaponSwitchHandler>(); 
             _animatorStateHasher.Init();
             _parametersHasher.Init();
